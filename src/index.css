@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+/* ───────── Design tokens ───────── */
+@theme {
+  /* Color */
+  --color-ink: #0c0e11;
+  --color-panel: #12151a;
+  --color-raised: #181c22;
+  --color-line: #232830;
+  --color-line-strong: #323843;
+  --color-fg: #ebe9e4;
+  --color-muted: #8f959e;
+  --color-dim: #5f656e;
+  --color-signal: #7d9dff;
+  --color-signal-soft: #7d9dff1a;
+  --color-ok: #5cc98f;
+
+  /* Typography */
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --text-display: clamp(2.75rem, 1.4rem + 5.4vw, 6.25rem);
+  --text-display--line-height: 0.98;
+  --text-title: clamp(2rem, 1.3rem + 2.8vw, 3.75rem);
+  --text-title--line-height: 1.04;
+
+  /* Radius */
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  /* Shadow */
+  --shadow-panel: inset 0 1px 0 0 #ffffff0a, 0 24px 48px -28px #000000e6;
+  --shadow-glow: 0 0 0 1px #7d9dff40, 0 0 24px -4px #7d9dff55;
+
+  /* Motion */
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --duration-fast: 160ms;
+  --duration-base: 280ms;
+}
+
+@layer base {
+  html {
+    background: var(--color-ink);
+    color: var(--color-fg);
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body { font-family: var(--font-sans); font-feature-settings: "ss01", "cv11"; }
+  ::selection { background: #7d9dff55; color: #fff; }
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* ───────── Signature: node field ───────── */
+.node-field {
+  background-image: radial-gradient(circle at center, #ffffff14 1px, transparent 1.4px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 80%);
+}
+
+.hairline { border-color: var(--color-line); }
+
+/* Travelling packet along a vertical connector */
+@keyframes packet-down {
+  0% { transform: translateY(-4px); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(calc(var(--len, 40px) - 4px)); opacity: 0; }
+}
+.packet { animation: packet-down 1.1s var(--ease-soft) infinite; }
+
+@keyframes blink { 50% { opacity: 0; } }
+.caret { animation: blink 1.1s steps(1) infinite; }
+
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 0 0 #5cc98f66; }
+  50% { box-shadow: 0 0 0 5px #5cc98f00; }
+}
+.status-dot { animation: breathe 2.4s ease-in-out infinite; }
+
+.node-field-static {
+  background-image: radial-gradient(circle at center, #ffffff12 1px, transparent 1.4px);
+  background-size: 22px 22px;
+}
