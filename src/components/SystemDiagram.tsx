@@ -37,7 +37,7 @@ export function SystemDiagram() {
       title="How I Think About Software"
       intro="A feature is never one component. Below is a single payment request, traced from the user's click to the database and out to external services, and back."
     >
-      <div ref={ref} className="grid gap-10 lg:grid-cols-12">
+      <div ref={ref} className="grid min-w-0 gap-10 lg:grid-cols-12">
         {/* Diagram */}
         <ol className="lg:col-span-5" aria-label="System layers, in request order">
           {systemNodes.map((n, i) => {
@@ -99,7 +99,7 @@ export function SystemDiagram() {
         </ol>
 
         {/* Explanation + log */}
-        <div className="flex flex-col gap-8 lg:col-span-7 lg:col-start-7">
+        <div className="flex min-w-0 flex-col gap-8 lg:col-span-7 lg:col-start-7">
           <div className="grid gap-6 sm:grid-cols-2">
             {[
               ["Contracts first", "Frontend and backend agree on a typed payload before either is built."],
@@ -114,7 +114,7 @@ export function SystemDiagram() {
             ))}
           </div>
 
-          <div className="overflow-hidden rounded-lg border border-line bg-ink shadow-panel">
+          <div className="min-w-0 overflow-hidden rounded-lg border border-line bg-ink shadow-panel">
             <div className="flex items-center justify-between border-b border-line px-4 py-2.5">
               <p className="font-mono text-[0.72rem] text-muted">trace: POST /api/payments</p>
               <div className="flex items-center gap-2">

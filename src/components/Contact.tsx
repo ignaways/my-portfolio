@@ -47,9 +47,10 @@ export function Contact() {
   }
 
   const channels = [
-    { label: "Email", value: profile.email, href: `mailto:${profile.email}` },
-    { label: "LinkedIn", value: profile.links.linkedin.replace("https://www.", ""), href: profile.links.linkedin },
-    { label: "GitHub", value: profile.links.github.replace("https://", ""), href: profile.links.github },
+    { label: "Email", value: profile.email, href: `mailto:${profile.email}`, external: false },
+    { label: "Phone", value: profile.phone, href: `https://wa.me/${profile.phone.replace(/\D/g, "")}`, external: true },
+    { label: "LinkedIn", value: profile.links.linkedin.replace("https://www.", ""), href: profile.links.linkedin, external: true },
+    { label: "GitHub", value: profile.links.github.replace("https://", ""), href: profile.links.github, external: true },
   ];
 
   return (
@@ -65,7 +66,7 @@ export function Contact() {
           </p>
           <ul className="mt-12 border-t border-line">
             {channels.map((c) => {
-              const pending = c.href.includes("[");
+              const pending = c.value.includes("[");
               const inner = (
                 <>
                   <span className="text-[0.9rem] text-muted">{c.label}</span>
@@ -79,7 +80,12 @@ export function Contact() {
                   {pending ? (
                     <div className="grid grid-cols-[6rem_1fr] items-baseline gap-4 py-5">{inner}</div>
                   ) : (
-                    <a href={c.href} target={c.label === "Email" ? undefined : "_blank"} rel="noopener noreferrer" className="group grid grid-cols-[6rem_1fr] items-baseline gap-4 py-5">
+                    <a
+                      href={c.href}
+                      target={c.external ? "_blank" : undefined}
+                      rel="noopener noreferrer"
+                      className="group grid grid-cols-[6rem_1fr] items-baseline gap-4 py-5"
+                    >
                       {inner}
                     </a>
                   )}
