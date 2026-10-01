@@ -101,10 +101,10 @@ function Detail({ tech, layer }: { tech: Tech; layer: string }) {
             <dt className="text-muted">Used for</dt>
             <dd className="leading-relaxed text-fg/90">{tech.usage}</dd>
           </div>
-          <div className="grid grid-cols-[110px_1fr] gap-3 p-5 text-[0.9rem]">
-            <dt className="text-muted">Example</dt>
-            <dd className="text-fg"><Text value={tech.example} /></dd>
-          </div>
+          {/*<div className="grid grid-cols-[110px_1fr] gap-3 p-5 text-[0.9rem]">*/}
+          {/*  <dt className="text-muted">Example</dt>*/}
+          {/*  <dd className="text-fg"><Text value={tech.example} /></dd>*/}
+          {/*</div>*/}
         </motion.dl>
       </AnimatePresence>
     </div>

@@ -32,6 +32,7 @@ export function About() {
                 I care about clean, maintainable code, strong collaboration, and continuous learning.
                 To me, good software isn't just about knowing how each layer works,
                 but understanding why it exists and how everything fits together.
+                And becoming a developer has always been more than a career for me, it has been a dream.
               </p>
             </div>
           </Reveal>

@@ -84,8 +84,8 @@ export const heroLayers = [
 
 /* ───────── About ───────── */
 export const principlesShort = [
-  { title: "Build with purpose.", body: "Every feature should answer a real need, not a hypothetical one." },
-  { title: "Think in systems.", body: "A button is also a request, a rule, a query and a record." },
+  { title: "Build with purpose.", body: "Build for real needs, not just wants." },
+  { title: "Think in systems.", body: "A button is also a request, a rule, a query, and a record." },
   { title: "Keep it maintainable.", body: "Code is read far more often than it is written." },
   { title: "Solve the real problem.", body: "Understand the business before touching the keyboard." },
 ];
@@ -101,16 +101,27 @@ export type StackLayer = { id: string; name: string; role: string; items: Tech[]
 
 export const stack: StackLayer[] = [
   {
+    id: "language",
+    name: "Language",
+    role: "How to communicate",
+    items: [
+      { name: "JavaScript", years: "8 yrs", usage: "Powering full-stack web applications, from interactive user interfaces to backend services.", example: "All projects" },
+      { name: "TypeScript", years: "5 yrs", usage: "Writing scalable, type-safe code to ensure reliable and maintainable applications.", example: "All projects" },
+      { name: "HTML", years: "8 yrs", usage: "Structuring semantic and accessible content for web interfaces.", example: "All projects" },
+      { name: "CSS", years: "8 yrs", usage: "Crafting responsive layouts and modern visual styling systems.", example: "All projects" },
+      { name: "Java", years: "1 yrs", usage: "Building robust REST APIs and enterprise backend services.", example: "Learning" },
+    ],
+  },
+  {
     id: "frontend",
     name: "Frontend",
     role: "What the user touches",
     items: [
-      { name: "React.js", years: "[n] yrs", usage: "Component architecture, state management and complex forms for business apps.", example: "POS / Management System" },
-      { name: "Next.js", years: "[n] yrs", usage: "Server rendering, routing and API routes for production web apps.", example: "Personal Finance Application" },
-      { name: "Vue.js", years: "[n] yrs", usage: "Reactive interfaces and component-driven dashboards.", example: "[Project name]" },
-      { name: "TypeScript", years: "[n] yrs", usage: "Typed contracts shared between UI, API and domain logic.", example: "Enterprise Banking System" },
-      { name: "JavaScript", years: "[n] yrs", usage: "The foundation under every layer, browser and server.", example: "All projects" },
-      { name: "React Native", years: "[n] yrs", usage: "Cross-platform mobile apps sharing logic with the web.", example: "[Project name]" },
+      { name: "React", years: "8 yrs", usage: "Component architecture, state management and complex forms for business apps.", example: "POS / Management System" },
+      { name: "Next", years: "1 yrs", usage: "Server rendering, routing and API routes for production web apps.", example: "Personal Finance Application" },
+      { name: "Vue", years: "1 yrs", usage: "Reactive interfaces and component-driven dashboards.", example: "[Project name]" },
+      { name: "Angular", years: "2 yrs", usage: "", example: "[Project name]" },
+      { name: "React Native", years: "1 yrs", usage: "Cross-platform mobile apps sharing logic with the web.", example: "[Project name]" },
     ],
   },
   {
@@ -118,9 +129,12 @@ export const stack: StackLayer[] = [
     name: "Backend",
     role: "Where the rules live",
     items: [
-      { name: "Node.js", years: "[n] yrs", usage: "Services, background jobs and tooling.", example: "Personal Finance Application" },
-      { name: "Express.js", years: "[n] yrs", usage: "Lean HTTP services with layered routing, validation and error handling.", example: "Personal Finance Application" },
-      { name: "REST API", years: "[n] yrs", usage: "Designing and consuming resource-oriented contracts.", example: "Enterprise Banking System" },
+      { name: "Node.js", years: "6 yrs", usage: "Services, background jobs and tooling.", example: "Personal Finance Application" },
+      { name: "Express", years: "1 yrs", usage: "Lean HTTP services with layered routing, validation and error handling.", example: "Personal Finance Application" },
+      { name: "REST API", years: "8 yrs", usage: "Designing and consuming resource-oriented contracts.", example: "Enterprise Banking System" },
+      { name: "Sequelize", years: "1 yrs", usage: "Managing relational databases through data models, relationships, and schema migrations.", example: "" },
+      { name: "PostgreSQL", years: "1 yrs", usage: "Designing robust relational database schemas and optimizing complex queries for high performance.", example: "" },
+      { name: "MongoDB", years: "1 yrs", usage: "Structuring flexible, document-oriented data models for scalable and fast-paced applications.", example: "" },1
     ],
   },
   {
@@ -128,10 +142,10 @@ export const stack: StackLayer[] = [
     name: "Data",
     role: "What must stay correct",
     items: [
-      { name: "SQL", years: "[n] yrs", usage: "Querying, joins, aggregates and reading execution plans.", example: "Enterprise Banking System" },
-      { name: "Database Design", years: "[n] yrs", usage: "Schemas designed around access patterns and integrity.", example: "Personal Finance Application" },
-      { name: "Stored Procedures", years: "[n] yrs", usage: "Transactional business operations close to the data.", example: "Enterprise Banking System" },
-      { name: "Data Modeling", years: "[n] yrs", usage: "Turning business language into entities and relationships.", example: "POS / Management System" },
+      { name: "SQL", years: "8 yrs", usage: "Querying, joins, aggregates and reading execution plans.", example: "Enterprise Banking System" },
+      { name: "Database Design", years: "5 yrs", usage: "Schemas designed around access patterns and integrity.", example: "Personal Finance Application" },
+      { name: "Stored Procedures", years: "5 yrs", usage: "Transactional business operations close to the data.", example: "Enterprise Banking System" },
+      { name: "Data Modeling", years: "5 yrs", usage: "Turning business language into entities and relationships.", example: "POS / Management System" },
     ],
   },
   {
@@ -139,11 +153,11 @@ export const stack: StackLayer[] = [
     name: "Engineering",
     role: "How it holds together",
     items: [
-      { name: "Git", years: "[n] yrs", usage: "Branching workflows, reviews and clean history.", example: "All projects" },
-      { name: "API Architecture", years: "[n] yrs", usage: "Versioning, pagination, error shapes and boundaries.", example: "Enterprise Banking System" },
-      { name: "Design Patterns", years: "[n] yrs", usage: "Repository, service and adapter patterns where they pay off.", example: "Personal Finance Application" },
-      { name: "OOP", years: "[n] yrs", usage: "Encapsulating domain behaviour behind clear interfaces.", example: "[Project name]" },
-      { name: "System Design", years: "[n] yrs", usage: "Reasoning about data flow, failure and scale before building.", example: "Enterprise Banking System" },
+      { name: "Git", years: "8 yrs", usage: "Branching workflows, reviews and clean history.", example: "All projects" },
+      { name: "API Architecture", years: "5 yrs", usage: "Versioning, pagination, error shapes and boundaries.", example: "Enterprise Banking System" },
+      { name: "Design Patterns", years: "3 yrs", usage: "Repository, service and adapter patterns where they pay off.", example: "Personal Finance Application" },
+      { name: "OOP", years: "3 yrs", usage: "Encapsulating domain behaviour behind clear interfaces.", example: "[Project name]" },
+      { name: "System Design", years: "3 yrs", usage: "Reasoning about data flow, failure and scale before building.", example: "Enterprise Banking System" },
     ],
   },
 ];
