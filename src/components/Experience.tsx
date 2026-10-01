@@ -39,7 +39,7 @@ export function Experience() {
                   <span className="text-muted">Impact: </span>
                   <Text value={e.impact} />
                 </p>
-                <ul className="mt-5 flex flex-wrap gap-2">
+                <ul className="mt-5 flex flex-wrap gap-2 mb-10">
                   {e.tech.map((t) => (
                     <li key={t} className="rounded-xs border border-line px-2.5 py-1 font-mono text-[0.72rem] text-muted">{t}</li>
                   ))}
