@@ -5,7 +5,7 @@ import { Section } from "./Section";
 
 export function Experience() {
   return (
-    <Section id="experience" title="Experience" intro="Banking, fintech and enterprise software: environments where systems have to be correct, not just fast to ship.">
+    <Section id="experience" title="Experience" intro="Knowledge grows through experience. I learn by building, solving, and improving.">
       <ol className="relative ml-1 border-l border-line md:ml-0 md:border-l-0">
         {experience.map((e, i) => (
           <Reveal key={i}>
