@@ -10,7 +10,7 @@ export const profile = {
   role: "Fullstack Developer / Software Engineer",
   headline: "I Build Systems, Not Just Interfaces.",
   summary:
-    "Fullstack Developer focused on building scalable web applications, reliable APIs, and thoughtful user experiences.",
+    "I'm Ignaway, a Fullstack Developer focused on building scalable applications, reliable APIs, and thoughtful user experiences.",
   availability: "Open to interesting opportunities",
   email: "ignaway@example.com",
   phone: "+62 851-58015-223",
