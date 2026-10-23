@@ -74,6 +74,21 @@ export const tools = [
   { name: "Git", icon: devicon("git/git-original.svg") },
 ] as const;
 
+/* ───────── Technologies I work with (hero marquee) ───────── */
+export const heroTech = [
+  { name: "JavaScript", icon: devicon("javascript/javascript-original.svg") },
+  { name: "TypeScript", icon: devicon("typescript/typescript-original.svg") },
+  { name: "React", icon: devicon("react/react-original.svg") },
+  { name: "Next.js", icon: devicon("nextjs/nextjs-original.svg") },
+  { name: "Angular", icon: devicon("angular/angular-original.svg") },
+  { name: "Vue", icon: devicon("vuejs/vuejs-original.svg") },
+  { name: "Node.js", icon: devicon("nodejs/nodejs-original.svg") },
+  { name: "Express.js", icon: devicon("express/express-original.svg") },
+  { name: "PostgreSQL", icon: devicon("postgresql/postgresql-original.svg") },
+  { name: "Docker", icon: devicon("docker/docker-original.svg") },
+  { name: "Git", icon: devicon("git/git-original.svg") },
+] as const;
+
 /* ───────── Stack ───────── */
 export type Tech = {
   name: string;

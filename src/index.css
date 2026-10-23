@@ -2,6 +2,13 @@
 
 /* ───────── Design tokens ───────── */
 @theme {
+  /* Motion */
+  --animate-marquee: marquee 35s linear infinite;
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
   /* Color */
   --color-primary: #3b82f6;
   --color-primary-dark: #2563eb;
