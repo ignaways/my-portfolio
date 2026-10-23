@@ -11,7 +11,7 @@ export function Text({ value, className }: { value: string; className?: string }
           <span
             key={i}
             title="Placeholder: replace in lib/content.ts"
-            className="text-muted underline decoration-dashed decoration-dim underline-offset-4"
+            className="text-gray underline decoration-dashed decoration-gray/50 underline-offset-4"
           >
             {p.slice(1, -1)}
           </span>

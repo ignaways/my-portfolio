@@ -1,67 +1,62 @@
 import { Link } from "react-router-dom";
-import { insights } from "@/lib/content";
+import type { Insight } from "@/lib/content";
+import { useI18n } from "@/lib/i18n";
+import { ArrowRight } from "./Icons";
 import { Reveal } from "./Reveal";
-import { Section } from "./Section";
+import { SectionHeader } from "./SectionHeader";
+
+const covers: Record<Insight["tone"], string> = {
+  blue: "from-[#dbeafe] to-[#bfdbfe]",
+  dark: "from-[#1f2937] to-[#111827]",
+  violet: "from-[#ede9fe] to-[#ddd6fe]",
+  gray: "from-[#f3f4f6] to-[#e5e7eb]",
+  green: "from-[#dcfce7] to-[#bbf7d0]",
+};
 
 export function Insights() {
-  const featured = insights.find((a) => a.featured)!;
-  const rest = insights.filter((a) => !a.featured);
-
+  const { t, c } = useI18n();
+  const [shown, rest] = [c.insights.slice(0, 3), c.insights.slice(3)];
   return (
-    <Section id="insights" title="What I Think About" intro="Notes on the problems that show up once software meets real data and real users.">
-      <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
-        <Reveal className="lg:col-span-5">
-          <article className="group h-full rounded-lg border border-line bg-panel shadow-panel transition-colors hover:border-line-strong">
-            <Link to={`/insights/${featured.slug}`} className="flex h-full flex-col p-6 md:p-8">
-              <p className="text-[0.85rem] text-signal">{featured.topic}</p>
-              <h3 className="mt-3 text-[2rem] font-semibold leading-[1.08] tracking-[-0.03em] text-fg">{featured.title}</h3>
-              <p className="mt-4 text-[1rem] leading-relaxed text-muted">{featured.dek}</p>
-              <PlanVisual />
-              <span className="mt-auto pt-8 text-[0.9rem] text-fg underline decoration-line-strong underline-offset-4 transition-colors group-hover:decoration-signal">
-                Read article
-              </span>
-            </Link>
-          </article>
-        </Reveal>
-
-        <ul className="border-t border-line lg:col-span-7">
-          {rest.map((a, i) => (
-            <Reveal key={a.slug} delay={i * 0.03}>
-              <li className="border-b border-line">
-                <Link to={`/insights/${a.slug}`} className="group grid gap-2 py-6 sm:grid-cols-[8.5rem_1fr] sm:gap-6">
-                  <p className="text-[0.85rem] text-muted">{a.topic}</p>
-                  <div>
-                    <h3 className="text-[1.2rem] font-medium tracking-[-0.015em] text-fg transition-colors group-hover:text-signal">{a.title}</h3>
-                    <p className="mt-1.5 text-[0.95rem] leading-relaxed text-muted">{a.dek}</p>
-                  </div>
-                </Link>
-              </li>
+    <section id="insights" aria-labelledby="insights-title" className="bg-light/60 py-20 md:py-28">
+      <div className="container-page">
+        <SectionHeader
+          id="insights"
+          badge={t.insights.badge}
+          title={t.insights.title}
+          intro={t.insights.intro}
+        />
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {shown.map((a, i) => (
+            <Reveal key={a.slug} delay={i * 0.06}>
+              <Link to={`/insights/${a.slug}`} className="group block">
+                <div className={`flex aspect-[16/10] items-end overflow-hidden rounded-card bg-gradient-to-br p-5 ${covers[a.tone]}`}>
+                  <span className={`text-[1.4rem] font-bold leading-tight tracking-[-0.02em] transition-transform duration-500 group-hover:-translate-y-1 ${a.tone === "dark" ? "text-white" : "text-dark/80"}`}>
+                    {a.title}
+                  </span>
+                </div>
+                <p className="mt-4 text-[0.8rem] font-medium text-primary">{a.topic}</p>
+                <h3 className="mt-1 text-[1.05rem] font-semibold leading-6 text-dark transition-colors group-hover:text-primary">{a.title}</h3>
+                <p className="mt-1.5 text-[0.9rem] leading-6 text-gray">{a.dek}</p>
+              </Link>
             </Reveal>
           ))}
-        </ul>
-      </div>
-    </Section>
-  );
-}
-
-/** Illustrative execution-plan comparison (qualitative, no invented numbers). */
-function PlanVisual() {
-  return (
-    <div aria-hidden className="mt-8 space-y-4 rounded-md border border-line bg-ink p-4 font-mono text-[0.72rem]">
-      <div>
-        <p className="flex justify-between text-muted"><span>Clustered Index Scan</span><span>reads every row</span></p>
-        <div className="mt-2 grid grid-cols-[repeat(24,1fr)] gap-[3px]">
-          {Array.from({ length: 24 }).map((_, i) => <span key={i} className="h-2 rounded-[1px] bg-muted/50" />)}
         </div>
+        {rest.length > 0 && (
+          <ul className="mt-12 divide-y divide-line border-y border-line">
+            {rest.map((a) => (
+              <li key={a.slug}>
+                <Link to={`/insights/${a.slug}`} className="group flex items-center justify-between gap-6 py-4">
+                  <span>
+                    <span className="block text-[0.95rem] font-medium text-dark transition-colors group-hover:text-primary">{a.title}</span>
+                    <span className="block text-[0.8rem] text-gray">{a.topic}</span>
+                  </span>
+                  <ArrowRight className="shrink-0 text-gray transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-      <div>
-        <p className="flex justify-between text-muted"><span className="text-fg">Index Seek</span><span>reads matching rows</span></p>
-        <div className="mt-2 grid grid-cols-[repeat(24,1fr)] gap-[3px]">
-          {Array.from({ length: 24 }).map((_, i) => (
-            <span key={i} className={`h-2 rounded-[1px] ${i >= 9 && i <= 11 ? "bg-signal" : "bg-line"}`} />
-          ))}
-        </div>
-      </div>
-    </div>
+    </section>
   );
 }

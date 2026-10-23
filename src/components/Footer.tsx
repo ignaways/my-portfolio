@@ -1,28 +1,52 @@
-import { useEffect, useState } from "react";
-import { profile } from "@/lib/content";
+import { profile, whatsappUrl } from "@/lib/content";
+import { useI18n } from "@/lib/i18n";
+import { GitHub, LinkedIn, Mail, WhatsApp } from "./Icons";
+import { Logo } from "./Logo";
 
-/** Reports the real page load time from the Navigation Timing API. */
-export function Footer() {
-  const [ms, setMs] = useState<number | null>(null);
-
-  useEffect(() => {
-    const read = () => {
-      const nav = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
-      if (nav && nav.loadEventEnd > 0) setMs(Math.round(nav.loadEventEnd));
-    };
-    if (document.readyState === "complete") read();
-    else window.addEventListener("load", () => setTimeout(read, 0), { once: true });
-  }, []);
+export function Footer({ home = true }: { home?: boolean }) {
+  const { c } = useI18n();
+  const socials = [
+    { label: "WhatsApp", href: whatsappUrl, Icon: WhatsApp },
+    { label: "LinkedIn", href: profile.links.linkedin, Icon: LinkedIn },
+    { label: "GitHub", href: profile.links.github, Icon: GitHub },
+    { label: "Email", href: `mailto:${profile.email}`, Icon: Mail },
+  ];
 
   return (
     <footer className="border-t border-line">
-      <div className="mx-auto flex max-w-[1200px] flex-col gap-4 px-5 py-8 text-[0.85rem] text-muted md:flex-row md:items-center md:justify-between md:px-10">
-        <p>© {new Date().getFullYear()} {profile.name}</p>
-        <p className="flex items-center gap-2 font-mono text-[0.72rem]">
-          <span className={`h-1.5 w-1.5 rounded-full ${ms === null ? "bg-line-strong" : "bg-ok"}`} aria-hidden />
-          {ms === null ? "measuring page load" : `page loaded in ${ms} ms`}
-        </p>
-        <p>Built with React, TypeScript, Tailwind CSS and Framer Motion</p>
+      <div className="container-page flex flex-col gap-6 py-10 md:flex-row md:items-center md:justify-between">
+        <a href={home ? "#top" : "/"}>
+          <Logo />
+        </a>
+        <ul className="flex flex-wrap gap-x-6 gap-y-2">
+          {c.nav.map((n) => (
+            <li key={n.id}>
+              <a href={home ? `#${n.id}` : `/#${n.id}`} className="text-[0.85rem] text-gray transition-colors hover:text-primary">
+                {n.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div className="md:text-right">
+          <ul className="flex gap-4 md:justify-end">
+            {socials.map(({ label, href, Icon }) => (
+              <li key={label}>
+                <a
+                  href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="text-dark transition-colors hover:text-primary"
+                >
+                  <Icon width={20} height={20} />
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-[0.8rem] text-gray">
+            © {new Date().getFullYear()} {profile.name}.
+          </p>
+        </div>
       </div>
     </footer>
   );

@@ -7,8 +7,16 @@
 
 export const profile = {
   name: "Ignatius Andri",
+  brand: "Ignaway",
   role: "Fullstack Developer / Software Engineer",
-  headline: "I Build Systems, Not Just Interfaces.",
+  headline: "A Fullstack Developer & Software Engineer",
+  aboutHeadline: "Building systems that make a difference.",
+  location: "Indonesia",
+  /** Put your CV at public/cv.pdf and set this to "/cv.pdf" to show the Download CV button. */
+  cv: "",
+  careerStart: 2018,
+  aboutBody:
+    "From banking platforms to startup products, I enjoy turning complex business rules into software that is clear for users and maintainable for the teams who build it.",
   summary:
     "I'm Ignaway, a Fullstack Developer focused on building scalable applications, reliable APIs, and thoughtful user experiences.",
   availability: "Open to interesting opportunities",
@@ -25,70 +33,46 @@ export const profile = {
     width: 1000,
     height: 1250,
   },
+  aboutPhoto: {
+    src: "/images/ignatius-andri-about.png",
+    alt: "Ignatius Andri in a plaid shirt and bucket hat",
+    width: 1035,
+    height: 2033,
+  },
 };
+
+export const yearsOfExperience = new Date().getFullYear() - profile.careerStart;
+export const whatsappUrl = `https://wa.me/${profile.phone.replace(/\D/g, "")}`;
 
 export const nav = [
+  { id: "top", label: "Home" },
   { id: "about", label: "About" },
-  { id: "stack", label: "Stack" },
   { id: "projects", label: "Projects" },
-  { id: "experience", label: "Experience" },
-  { id: "insights", label: "Insights" },
+  { id: "insights", label: "Blog" },
   { id: "contact", label: "Contact" },
-] as const;
-
-/** Every section is an "endpoint" — the nav shows the route of the section in view. */
-export const routes: Record<string, string> = {
-  top: "/",
-  about: "/about",
-  stack: "/stack",
-  architecture: "/architecture",
-  projects: "/projects",
-  experience: "/experience",
-  journey: "/journey",
-  principles: "/principles",
-  insights: "/insights",
-  contact: "/contact",
-};
-
-/* ───────── Hero: one request traced through the stack ───────── */
-export const heroLayers = [
-  {
-    id: "frontend",
-    name: "Frontend",
-    tech: "React / Next.js",
-    detail: "Renders state, handles interaction, and keeps the UI honest about loading and errors.",
-    trace: "<ProjectList /> fetches on mount",
-  },
-  {
-    id: "api",
-    name: "API",
-    tech: "REST API / Services",
-    detail: "A stable contract between client and server: typed payloads, clear status codes.",
-    trace: "GET /api/projects?limit=6",
-  },
-  {
-    id: "backend",
-    name: "Backend",
-    tech: "Node.js / Express",
-    detail: "Business rules live here, validated once and reused everywhere.",
-    trace: "projectService.list({ limit: 6 })",
-  },
-  {
-    id: "database",
-    name: "Database",
-    tech: "SQL / Data Layer",
-    detail: "Indexed, normalised data with queries shaped around how it is read.",
-    trace: "SELECT id, name FROM projects ORDER BY updated_at DESC",
-  },
-] as const;
-
-/* ───────── About ───────── */
-export const principlesShort = [
-  { title: "Build with purpose.", body: "Build for real needs, not just wants." },
-  { title: "Think in systems.", body: "A button is also a request, a rule, a query, and a record." },
-  { title: "Keep it maintainable.", body: "Code is read far more often than it is written." },
-  { title: "Solve the real problem.", body: "Understand the business before touching the keyboard." },
 ];
+
+/* ───────── What I Do ───────── */
+export type Service = { icon: "layout" | "server" | "database" | "puzzle"; title: string; body: string };
+export const services: Service[] = [
+  { icon: "layout", title: "Frontend Development", body: "Building responsive, accessible interfaces with React, Next.js and Angular." },
+  { icon: "server", title: "Backend & APIs", body: "Designing reliable REST APIs and services with Node.js and Express." },
+  { icon: "database", title: "Database Design", body: "Modelling data and writing queries that stay fast as data grows." },
+  { icon: "puzzle", title: "Problem Solving", body: "Understanding the business first, then finding simple solutions to complex problems." },
+];
+
+/* ───────── Tools I Use ───────── */
+const devicon = (path: string) => `https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/${path}`;
+export const tools = [
+  { name: "React", icon: devicon("react/react-original.svg") },
+  { name: "Next.js", icon: devicon("nextjs/nextjs-original.svg") },
+  { name: "TypeScript", icon: devicon("typescript/typescript-original.svg") },
+  { name: "Angular", icon: devicon("angular/angular-original.svg") },
+  { name: "Node.js", icon: devicon("nodejs/nodejs-original.svg") },
+  { name: "PostgreSQL", icon: devicon("postgresql/postgresql-original.svg") },
+  { name: "MongoDB", icon: devicon("mongodb/mongodb-original.svg") },
+  { name: "Git", icon: devicon("git/git-original.svg") },
+] as const;
 
 /* ───────── Stack ───────── */
 export type Tech = {
@@ -134,7 +118,7 @@ export const stack: StackLayer[] = [
       { name: "REST API", years: "8 yrs", usage: "Designing and consuming resource-oriented contracts.", example: "Enterprise Banking System" },
       { name: "Sequelize", years: "1 yrs", usage: "Managing relational databases through data models, relationships, and schema migrations.", example: "" },
       { name: "PostgreSQL", years: "1 yrs", usage: "Designing robust relational database schemas and optimizing complex queries for high performance.", example: "" },
-      { name: "MongoDB", years: "1 yrs", usage: "Structuring flexible, document-oriented data models for scalable and fast-paced applications.", example: "" },1
+      { name: "MongoDB", years: "1 yrs", usage: "Structuring flexible, document-oriented data models for scalable and fast-paced applications.", example: "" },
     ],
   },
   {
@@ -161,16 +145,6 @@ export const stack: StackLayer[] = [
     ],
   },
 ];
-
-/* ───────── Architecture ───────── */
-export const systemNodes = [
-  { id: "user", name: "User", note: "Starts with intent, not a request.", log: '→ clicks "Pay invoice"' },
-  { id: "frontend", name: "Frontend", note: "Validates early, shows pending state, sends a typed payload.", log: "POST /api/payments { invoiceId, amount }" },
-  { id: "api", name: "API Layer", note: "Authenticates, validates the schema, and rejects bad input at the edge.", log: "auth ok, schema ok" },
-  { id: "logic", name: "Business Logic", note: "Applies the rules the business actually cares about.", log: "rule: amount <= balance, ok" },
-  { id: "db", name: "Database", note: "Commits atomically, so the books always balance.", log: "BEGIN; INSERT payment; UPDATE balance; COMMIT" },
-  { id: "ext", name: "External Services", note: "Talks to the outside world asynchronously and idempotently.", log: "gateway.notify() 202 Accepted" },
-] as const;
 
 /* ───────── Projects ───────── */
 export type Project = {
@@ -307,30 +281,18 @@ export const experience = [
   },
 ];
 
-/* ───────── Journey ───────── */
-export const journey = [
-  { stage: "Frontend", story: "It started with interfaces: making things people can see, click and understand." },
-  { stage: "Application logic", story: "Complex screens forced better questions: where does state live, and who owns a rule?" },
-  { stage: "API", story: "Consuming APIs led to designing them, and to caring about contracts, errors and versioning." },
-  { stage: "Database", story: "Slow screens led to slow queries, then to indexes, execution plans and data modelling." },
-  { stage: "Architecture", story: "Now the focus is the whole system: how the parts fit, fail and evolve together." },
-];
-
-/* ───────── Philosophy ───────── */
-export const philosophy = [
-  { title: "Think in Systems", body: "Understand how components interact rather than solving isolated problems.", code: "// a button is also a request, a rule and a row" },
-  { title: "Build for Change", body: "Write software that can evolve without becoming fragile.", code: "// depend on interfaces, not implementations" },
-  { title: "Solve the Root Cause", body: "Don't only fix the symptom. Understand why the problem exists.", code: "// why was the query slow? missing index on (account_id, created_at)" },
-  { title: "Keep It Simple", body: "Good engineering isn't about making systems unnecessarily complicated.", code: "// the best abstraction is the one you didn't need" },
-];
-
 /* ───────── Insights ───────── */
-export const insights = [
-  { slug: "table-scan-vs-index-seek", title: "Table Scan vs Index Seek", dek: "Reading an execution plan to understand why the same query can take 4 ms or 4 seconds.", topic: "Databases", featured: true },
-  { slug: "why-queries-get-slow", title: "Why a database query becomes slow", dek: "Missing indexes, non-sargable predicates, parameter sniffing and other usual suspects.", topic: "Databases" },
-  { slug: "better-rest-apis", title: "Designing better REST APIs", dek: "Resource naming, error shapes, pagination and the small decisions that age well.", topic: "API design" },
-  { slug: "frontend-state", title: "Where should state live?", dek: "Server state, UI state and URL state, and why mixing them causes most frontend bugs.", topic: "Frontend" },
-  { slug: "clean-architecture", title: "Clean architecture without the ceremony", dek: "Keeping business rules independent of frameworks, pragmatically.", topic: "Architecture" },
-  { slug: "fullstack-performance", title: "Common fullstack performance problems", dek: "N+1 queries, waterfalls, oversized payloads and re-render storms.", topic: "Performance" },
-  { slug: "maintainable-react", title: "Building maintainable React applications", dek: "Boundaries, colocation and components that are easy to delete.", topic: "Frontend" },
+export type Insight = { slug: string; title: string; dek: string; topic: string; tone: "blue" | "dark" | "violet" | "gray" | "green"; featured?: boolean };
+export const insights: Insight[] = [
+  { slug: "table-scan-vs-index-seek", title: "Table Scan vs Index Seek", dek: "Reading an execution plan to understand why the same query can take 4 ms or 4 seconds.", topic: "Databases", tone: "blue", featured: true },
+  { slug: "why-queries-get-slow", title: "Why a database query becomes slow", dek: "Missing indexes, non-sargable predicates, parameter sniffing and other usual suspects.", topic: "Databases", tone: "blue" },
+  { slug: "better-rest-apis", title: "Designing better REST APIs", dek: "Resource naming, error shapes, pagination and the small decisions that age well.", topic: "API design", tone: "dark" },
+  { slug: "frontend-state", title: "Where should state live?", dek: "Server state, UI state and URL state, and why mixing them causes most frontend bugs.", topic: "Frontend", tone: "violet" },
+  { slug: "clean-architecture", title: "Clean architecture without the ceremony", dek: "Keeping business rules independent of frameworks, pragmatically.", topic: "Architecture", tone: "gray" },
+  { slug: "fullstack-performance", title: "Common fullstack performance problems", dek: "N+1 queries, waterfalls, oversized payloads and re-render storms.", topic: "Performance", tone: "green" },
+  { slug: "maintainable-react", title: "Building maintainable React applications", dek: "Boundaries, colocation and components that are easy to delete.", topic: "Frontend", tone: "violet" },
 ];
+
+/** Everything that changes with the language; see content.id.ts for the Indonesian version. */
+export const content = { profile, nav, services, projects, experience, insights };
+export type Content = typeof content;

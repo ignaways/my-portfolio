@@ -1,56 +1,74 @@
-import { principlesShort } from "@/lib/content";
-import { Portrait } from "./Portrait";
+import { stack, tools, yearsOfExperience } from "@/lib/content";
+import { useI18n } from "@/lib/i18n";
+import { MapPin } from "./Icons";
+import { Photo } from "./Photo";
 import { Reveal } from "./Reveal";
-import { Section } from "./Section";
+import { SectionHeader } from "./SectionHeader";
+
+const techCount = stack.reduce((n, l) => n + l.items.length, 0);
 
 export function About() {
-  return (
-    <Section id="about" title="The Developer Behind the Work.">
-      <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
-        <Reveal className="lg:col-span-4">
-          <div className="mx-auto max-w-[360px] lg:sticky lg:top-24 lg:max-w-none">
-            <Portrait />
-          </div>
-        </Reveal>
+  const { t, c } = useI18n();
+  const { profile, experience } = c;
+  const stats = [
+    { value: `${yearsOfExperience}+`, label: t.about.years },
+    { value: `${experience.length}`, label: t.about.companies },
+    { value: `${techCount}+`, label: t.about.technologies },
+  ];
 
-        <div className="lg:col-span-7 lg:col-start-6">
-          <Reveal>
-            <p className="text-[1.5rem] font-medium leading-[1.35] tracking-[-0.02em] text-fg md:text-[1.9rem]">
-              I work across the whole application → from the interface people use,
-              to the APIs that power it, the business logic behind it, and the data underneath.
-            </p>
-            <div className="mt-8 max-w-[60ch] space-y-5 text-[1.0625rem] leading-relaxed text-muted">
-              <p>
-                I started my journey in UI/UX before moving into frontend development.
-                Later, I had the opportunity to work on the backend and found myself enjoying it just as much.
-                
-                I enjoy working with APIs, database modeling, and application architecture.
-                Most of my experience is in business systems, where understanding the workflow is
-                often more important than writing the code itself.
-              </p>
-              <p>
-                I care about clean, maintainable code, strong collaboration, and continuous learning.
-                To me, good software isn't just about knowing how each layer works,
-                but understanding why it exists and how everything fits together.
-                And becoming a developer has always been more than a career for me, it has been a dream.
-              </p>
+  return (
+    <section id="about" aria-labelledby="about-title" className="bg-light/10 py-20 md:py-28">
+      <div className="container-page">
+        <div className="grid items-center gap-12 md:grid-cols-12 md:gap-10">
+          <Reveal className="md:col-span-7">
+            <span className="badge">{t.about.badge}</span>
+            <h2 id="about-title" className="mt-4 max-w-[30rem] text-h2 font-bold tracking-[-0.03em] text-dark">
+              {profile.aboutHeadline}
+            </h2>
+            <div className="mt-6 max-w-[36rem] space-y-4 text-[1rem] leading-7 text-gray">
+              <p>{profile.summary}</p>
+              <p>{profile.aboutBody}</p>
             </div>
+            <dl className="mt-10 grid max-w-[30rem] grid-cols-3 gap-6">
+              {stats.map((s) => (
+                <div key={s.label}>
+                  <dt className="sr-only">{s.label}</dt>
+                  <dd className="text-h3 font-bold text-dark">{s.value}</dd>
+                  <dd className="mt-1 text-[0.8rem] text-gray">{s.label}</dd>
+                </div>
+              ))}
+            </dl>
           </Reveal>
 
-          <ul className="mt-14 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2">
-            {principlesShort.map((p, i) => (
-              <Reveal key={p.title} delay={i * 0.05} className="h-full">
-                <li className="group h-full bg-ink p-6 transition-colors duration-300 hover:bg-panel">
-                  <p className="text-[1.2rem] font-semibold tracking-[-0.02em] text-fg transition-colors duration-200 group-hover:text-signal">
-                    {p.title}
-                  </p>
-                  <p className="mt-2 text-[0.95rem] leading-relaxed text-muted">{p.body}</p>
+          <Reveal delay={0.1} className="mx-auto w-full max-w-[380px] md:col-span-5">
+            <Photo image={profile.aboutPhoto} mode="crop">
+              <div className="absolute bottom-8 right-0 flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-lift md:-right-2">
+                <span>
+                  <span className="block text-[0.75rem] text-gray">{t.about.basedIn}</span>
+                  <span className="block text-[0.9rem] font-semibold text-dark">{profile.location}</span>
+                </span>
+                <MapPin className="text-primary" />
+              </div>
+            </Photo>
+          </Reveal>
+        </div>
+
+        <div id="tools" className="mt-20 md:mt-28">
+          <SectionHeader id="tools" badge={t.about.toolsBadge} title={t.about.toolsTitle} intro={t.about.toolsIntro} />
+          <Reveal>
+            <ul className="grid grid-cols-4 gap-4 sm:grid-cols-8">
+              {tools.map((tool) => (
+                <li key={tool.name} className="flex flex-col items-center gap-2.5">
+                  <span className="card flex aspect-square w-full max-w-[84px] items-center justify-center transition-transform duration-300 hover:-translate-y-1">
+                    <img src={tool.icon} alt="" width={36} height={36} loading="lazy" className="h-9 w-9" />
+                  </span>
+                  <span className="text-center text-[0.8rem] text-gray">{tool.name}</span>
                 </li>
-              </Reveal>
-            ))}
-          </ul>
+              ))}
+            </ul>
+          </Reveal>
         </div>
       </div>
-    </Section>
+    </section>
   );
 }

@@ -1,160 +1,94 @@
+import type { Project } from "@/lib/content";
+import { useI18n } from "@/lib/i18n";
+import { ArrowRight } from "./Icons";
+import { Reveal } from "./Reveal";
+import { SectionHeader } from "./SectionHeader";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import { projects, type Project } from "@/lib/content";
-import { duration, ease } from "@/lib/motion";
-import { Text } from "./Placeholder";
-import { Section } from "./Section";
+const themes = [
+  { bg: "from-[#e0e7ff] to-[#c7d2fe]", accent: "bg-primary" },
+  { bg: "from-[#e5e7eb] to-[#d1d5db]", accent: "bg-dark" },
+  { bg: "from-[#3b2a20] to-[#1f1712]", accent: "bg-[#d4a373]" },
+];
+
+/** A real link is one without a [placeholder]. */
+const link = (p: Project) => [p.demo, p.github].find((u) => u && !u.includes("["));
 
 export function Projects() {
-  const [open, setOpen] = useState<string | null>(projects[0].id);
-
+  const { t, c } = useI18n();
   return (
-    <Section
-      id="projects"
-      title="Selected Work"
-      intro="Case studies rather than screenshots: the problem, the decisions, and how each system is put together."
-    >
-      <ul className="border-b border-line">
-        {projects.map((p) => (
-          <CaseStudy key={p.id} p={p} open={open === p.id} onToggle={() => setOpen(open === p.id ? null : p.id)} />
-        ))}
-      </ul>
-    </Section>
+    <section id="projects" aria-labelledby="projects-title" className="py-20 md:py-28">
+      <div className="container-page">
+        <SectionHeader
+          id="projects"
+          badge={t.projects.badge}
+          title={t.projects.title}
+          intro={t.projects.intro}
+        />
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {c.projects.map((p, i) => {
+            const href = link(p);
+            return (
+              <Reveal key={p.id} delay={i * 0.06}>
+                <article className="card group flex h-full flex-col overflow-hidden p-3 transition-shadow duration-300 hover:shadow-lift">
+                  <Thumbnail theme={themes[i % themes.length]} />
+                  <div className="flex flex-1 flex-col px-2 pb-2 pt-4">
+                    <span className="self-start rounded-md bg-light px-2 py-0.5 text-[0.72rem] font-medium text-gray">
+                      {p.category}
+                    </span>
+                    <h3 className="mt-3 text-[1.125rem] font-semibold text-dark">{p.name}</h3>
+                    <p className="mt-1.5 text-[0.9rem] leading-6 text-gray">{p.summary}</p>
+                    <ul className="mt-4 flex flex-wrap gap-1.5">
+                      {p.stack.map((s) => (
+                        <li key={s} className="rounded-md border border-line px-2 py-0.5 text-[0.72rem] text-gray">{s}</li>
+                      ))}
+                    </ul>
+                    <div className="mt-auto flex items-end justify-between gap-4 pt-5">
+                      <p className="text-[0.8rem] text-gray">{p.note ?? p.role}</p>
+                      {href && (
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={t.projects.open(p.name)}
+                          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary transition-colors group-hover:bg-primary group-hover:text-white"
+                        >
+                          <ArrowRight width={16} height={16} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              </Reveal>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }
 
-function CaseStudy({ p, open, onToggle }: { p: Project; open: boolean; onToggle: () => void }) {
-  const panelId = `case-${p.id}`;
+/** Abstract app mock-up used until real project screenshots exist. */
+function Thumbnail({ theme }: { theme: (typeof themes)[number] }) {
   return (
-    <li className="border-t border-line">
-      <h3>
-        <button
-          type="button"
-          onClick={onToggle}
-          aria-expanded={open}
-          aria-controls={panelId}
-          className="group grid w-full gap-4 py-8 text-left md:grid-cols-12 md:items-baseline md:gap-8 md:py-10"
-        >
-          <span className="md:col-span-5">
-            <span className="block text-[1.75rem] font-semibold tracking-[-0.03em] text-fg transition-colors duration-200 group-hover:text-signal md:text-[2.1rem]">
-              {p.name}
-            </span>
-            <span className="mt-1.5 block text-[0.9rem] text-muted">{p.category}</span>
-          </span>
-          <span className="text-[1rem] leading-relaxed text-muted md:col-span-5">{p.summary}</span>
-          <span className="flex items-center gap-3 text-[0.875rem] text-fg md:col-span-2 md:justify-self-end">
-            {open ? "Close" : "Case study"}
-            <span
-              aria-hidden
-              className={`relative flex h-7 w-7 items-center justify-center rounded-full border border-line-strong transition-colors group-hover:border-signal`}
-            >
-              <span className="absolute h-px w-3 bg-fg" />
-              <span className={`absolute h-3 w-px bg-fg transition-transform duration-300 ${open ? "scale-y-0" : ""}`} />
-            </span>
-          </span>
-        </button>
-      </h3>
-
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            id={panelId}
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: duration.slow, ease }}
-            className="overflow-hidden"
-          >
-            <div className="grid gap-10 pb-12 md:grid-cols-12 md:gap-8">
-              <div className="space-y-8 md:col-span-5">
-                <Block label="Problem">{p.problem}</Block>
-                <Block label="Solution">{p.solution}</Block>
-                <Block label="My role"><Text value={p.role} /></Block>
-                <div>
-                  <p className="text-[0.85rem] font-medium text-fg">Technologies</p>
-                  <ul className="mt-3 flex flex-wrap gap-2">
-                    {p.stack.map((s) => (
-                      <li key={s} className="rounded-xs border border-line px-2.5 py-1 font-mono text-[0.72rem] text-muted">
-                        {s}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="space-y-8 md:col-span-7">
-                <ArchitecturePreview nodes={p.architecture} />
-                <div>
-                  <p className="text-[0.85rem] font-medium text-fg">Key technical decisions</p>
-                  <ol className="mt-4 space-y-4">
-                    {p.decisions.map((d, i) => (
-                      <li key={d} className="grid grid-cols-[2rem_1fr] text-[0.975rem] leading-relaxed text-fg/85">
-                        <span className="font-mono text-[0.72rem] leading-[1.9] text-signal">{String(i + 1).padStart(2, "0")}</span>
-                        {d}
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-                <div className="flex flex-wrap items-center gap-3 pt-2">
-                  {p.github && <ProjectLink href={p.github} label="GitHub" />}
-                  {p.demo && <ProjectLink href={p.demo} label="Live demo" primary />}
-                  {p.note && <p className="text-[0.875rem] text-muted">{p.note}</p>}
-                </div>
-              </div>
+    <div aria-hidden className={`relative aspect-[16/10] overflow-hidden rounded-xl bg-gradient-to-br ${theme.bg}`}>
+      <div className="absolute left-[10%] top-[16%] h-full w-[86%] rounded-lg bg-white/95 p-3 shadow-lift transition-transform duration-500 ease-[var(--ease-soft)] group-hover:-translate-y-1">
+        <div className="flex gap-1">
+          {[0, 1, 2].map((d) => <span key={d} className="h-1.5 w-1.5 rounded-full bg-line" />)}
+        </div>
+        <div className="mt-3 flex gap-3">
+          <div className="w-1/4 space-y-1.5">
+            {[0, 1, 2, 3].map((r) => <span key={r} className={`block h-1.5 rounded ${r === 0 ? theme.accent : "bg-light"}`} />)}
+          </div>
+          <div className="flex-1 space-y-2">
+            <div className="grid grid-cols-3 gap-1.5">
+              {[0, 1, 2].map((c) => <span key={c} className="h-6 rounded bg-light" />)}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </li>
-  );
-}
-
-function Block({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <p className="text-[0.85rem] font-medium text-fg">{label}</p>
-      <p className="mt-2 max-w-[58ch] text-[0.975rem] leading-relaxed text-muted">{children}</p>
+            <span className={`block h-1.5 w-2/3 rounded opacity-70 ${theme.accent}`} />
+            <span className="block h-1.5 w-1/2 rounded bg-light" />
+            <span className="block h-10 rounded bg-light" />
+          </div>
+        </div>
+      </div>
     </div>
-  );
-}
-
-function ArchitecturePreview({ nodes }: { nodes: string[] }) {
-  return (
-    <figure className="rounded-lg border border-line bg-panel p-5 shadow-panel">
-      <figcaption className="mb-5 font-mono text-[0.72rem] text-muted">architecture</figcaption>
-      <ol className="flex flex-col gap-0 sm:flex-row sm:flex-wrap sm:items-center sm:gap-y-3">
-        {nodes.map((n, i) => (
-          <li key={n} className="flex flex-col sm:flex-row sm:items-center">
-            <span className="rounded-sm border border-line-strong bg-raised px-2.5 py-1.5 text-[0.8rem] text-fg">{n}</span>
-            {i < nodes.length - 1 && (
-              <span aria-hidden className="ml-5 h-4 w-px bg-line-strong sm:ml-0 sm:h-px sm:w-4" />
-            )}
-          </li>
-        ))}
-      </ol>
-    </figure>
-  );
-}
-
-function ProjectLink({ href, label, primary }: { href: string; label: string; primary?: boolean }) {
-  const pending = href.includes("[");
-  const cls = primary
-    ? "bg-fg text-ink hover:bg-white"
-    : "border border-line-strong text-fg hover:border-signal hover:text-signal";
-  if (pending) {
-    return (
-      <span
-        title="Placeholder: add the URL in lib/content.ts"
-        className="inline-flex h-10 items-center rounded-sm border border-dashed border-line-strong px-4 text-[0.875rem] text-muted"
-      >
-        {label} (add link)
-      </span>
-    );
-  }
-  return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={`inline-flex h-10 items-center rounded-sm px-4 text-[0.875rem] transition-colors ${cls}`}>
-      {label}
-    </a>
   );
 }

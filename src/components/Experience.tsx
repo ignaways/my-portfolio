@@ -1,54 +1,40 @@
-import { experience } from "@/lib/content";
+import { useI18n } from "@/lib/i18n";
 import { Text } from "./Placeholder";
 import { Reveal } from "./Reveal";
-import { Section } from "./Section";
+import { SectionHeader } from "./SectionHeader";
 
 export function Experience() {
+  const { t, c } = useI18n();
   return (
-    <Section id="experience" title="Experience" intro="Knowledge grows through experience. I learn by building, solving, and improving.">
-      <ol className="relative ml-1 border-l border-line md:ml-0 md:border-l-0">
-        {experience.map((e, i) => (
-          <Reveal key={i}>
-            <li className="relative grid gap-4 pb-16 pl-8 last:pb-0 md:grid-cols-[11rem_3rem_1fr] md:gap-0 md:pl-0">
-              {/* timeline rail on desktop sits in the middle column */}
-              <span aria-hidden className="absolute bottom-0 left-[12.5rem] top-2 hidden w-px bg-line md:block" />
-              <span
-                aria-hidden
-                className={`absolute left-[-5px] top-2 h-[9px] w-[9px] rounded-[2px] border md:left-[calc(12.5rem-4px)] ${
-                  i === 0 ? "border-signal bg-signal" : "border-line-strong bg-ink"
-                }`}
-              />
-              <div>
-                <p className="font-mono text-[0.78rem] text-muted"><Text value={e.period} /></p>
-                <p className="mt-1 text-[0.875rem] text-dim">{e.sector}</p>
-              </div>
-              <div className="md:col-start-3">
-                <h3 className="text-[1.4rem] font-semibold tracking-[-0.02em] text-fg">
-                  <Text value={e.role} />
-                </h3>
-                <p className="mt-1 text-[1rem] text-muted"><Text value={e.company} /></p>
-                <ul className="mt-5 space-y-2.5">
-                  {e.responsibilities.map((r) => (
-                    <li key={r} className="grid grid-cols-[1rem_1fr] text-[0.975rem] leading-relaxed text-fg/85">
-                      <span aria-hidden className="mt-[0.7em] h-px w-2 bg-dim" />
-                      {r}
-                    </li>
-                  ))}
+    <section id="experience" aria-labelledby="experience-title" className="py-20 md:py-28">
+      <div className="container-page">
+        <SectionHeader
+          id="experience"
+          badge={t.experience.badge}
+          title={t.experience.title}
+          intro={t.experience.intro}
+        />
+        <ol className="relative max-w-[52rem] border-l border-line pl-8 md:pl-10">
+          {c.experience.map((e, i) => (
+            <li key={e.company} className="relative pb-12 last:pb-0">
+              <span aria-hidden className="absolute -left-[37px] top-1.5 h-2.5 w-2.5 rounded-full bg-dark ring-4 ring-white md:-left-[45px]" />
+              <Reveal delay={i * 0.04}>
+                <p className="text-[0.85rem] text-gray"><Text value={e.period} /> · {e.sector}</p>
+                <h3 className="mt-1 text-[1.125rem] font-semibold text-dark">{e.role}</h3>
+                <p className="text-[0.95rem] font-medium text-primary"><Text value={e.company} /></p>
+                <ul className="mt-3 list-disc space-y-1.5 pl-5 text-[0.95rem] leading-6 text-gray marker:text-line">
+                  {e.responsibilities.map((r) => <li key={r}>{r}</li>)}
                 </ul>
-                <p className="mt-5 border-l-2 border-signal/50 pl-4 text-[0.95rem] leading-relaxed text-fg/90">
-                  <span className="text-muted">Impact: </span>
-                  <Text value={e.impact} />
-                </p>
-                <ul className="mt-5 flex flex-wrap gap-2 mb-10">
+                <ul className="mt-4 flex flex-wrap gap-1.5">
                   {e.tech.map((t) => (
-                    <li key={t} className="rounded-xs border border-line px-2.5 py-1 font-mono text-[0.72rem] text-muted">{t}</li>
+                    <li key={t} className="rounded-md bg-light px-2 py-0.5 text-[0.75rem] text-gray">{t}</li>
                   ))}
                 </ul>
-              </div>
+              </Reveal>
             </li>
-          </Reveal>
-        ))}
-      </ol>
-    </Section>
+          ))}
+        </ol>
+      </div>
+    </section>
   );
 }
